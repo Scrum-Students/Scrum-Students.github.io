@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User History</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+    .header {
+        background-color: #0056b3;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        font-size: 24px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .tab-container {
+        max-width: 600px;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .tab-header {
+        display: flex;
+        justify-content: space-between;
+        background-color: #0056b3;
+        border-bottom: 1px solid #ddd;
+    }
+    .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        color: #fff;
+    }
+    .tab.active {
+        background-color: #fff;
+        color: #333;
+    }
+    .tab-content {
+        padding: 20px;
+        background-color: #fff;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    li {
+        margin-bottom: 16px;
+        padding: 12px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        transition: transform 0.2s ease-out;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    li:hover {
+        transform: scale(1.02);
+    }
+    .delete-button {
+        cursor: pointer;
+        color: #999;
+        transition: color 0.3s;
+    }
+    .delete-button:hover {
+        color: #FF6347;
+    }
+</style>
+</head>
+<body>
+<div class="header">Lootmap History</div>
+<div class="tab-container">
+    <div class="tab-header">
+        <div class="tab active" data-tab="search">Searches</div>
+        <div class="tab" data-tab="store">Last Visited Stores</div>
+    </div>
+    <div class="tab-content" id="searchContent">
+    </div>
+    <div class="tab-content" id="storeContent" style="display: none;">
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                showTab(tabName);
+            });
+        });
+
+        function showTab(tabName) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                if (content.id === `${tabName}Content`) {
+                    content.style.display = 'block';
+                } else {
+                    content.style.display = 'none';
+                }
+            });
+
+            tabs.forEach(tab => {
+                if (tab.getAttribute('data-tab') === tabName) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+        }
+
+        function loadHistory() {
+            const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+            const storeHistory = JSON.parse(localStorage.getItem('storeHistory')) || [];
+
+            const searchContent = document.getElementById('searchContent');
+            const storeContent = document.getElementById('storeContent');
+
+            searchContent.innerHTML = '';
+            storeContent.innerHTML = '';
+
+            displayHistory(searchHistory, searchContent);
+
+            displayHistory(storeHistory, storeContent);
+        }
+
+        function displayHistory(history, container) {
+            history.forEach((entry, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = entry.item;
+                
+                const deleteButton = document.createElement('i');
+                deleteButton.classList.add('fas', 'fa-times', 'delete-button');
+                deleteButton.addEventListener('click', function() {
+                    deleteEntry(entry, container, index);
+                });
+
+                listItem.appendChild(deleteButton);
+                container.appendChild(listItem);
+            });
+        }
+
+        function deleteEntry(entry, container, index) {
+            container.removeChild(container.childNodes[index]);
+            const history = entry.type === 'search' ? 'searchHistory' : 'storeHistory';
+            let storedHistory = JSON.parse(localStorage.getItem(history)) || [];
+            storedHistory.splice(index, 1);
+            localStorage.setItem(history, JSON.stringify(storedHistory));
+        }
+
+        
+        function saveToHistory(type, item) {
+            let history = JSON.parse(localStorage.getItem(`${type}History`)) || [];
+
+            
+            if (history.length >= 10) {
+                history.shift(); 
+            }
+
+            history.push({ item, type });
+            localStorage.setItem(`${type}History`, JSON.stringify(history));
+        }
+
+        
+        saveToHistory('search', 'Query 1');
+        saveToHistory('search', 'Query 2');
+        
+        saveToHistory('store', 'Store 1');
+        saveToHistory('store', 'Store 2');
+
+        
+        loadHistory();
+    });
+</script>
+</body>
+</html>
