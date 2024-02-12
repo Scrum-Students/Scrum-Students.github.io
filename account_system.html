@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phenomenal Login Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .open-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 18px;
+      border: none;
+      cursor: pointer;
+      opacity: 0.8;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-popup {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      right: 15px;
+      border: 3px solid #3498db;
+      background-color: white;
+      border-radius: 8px;
+      z-index: 999;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container {
+      max-width: 200px; 
+      padding: 20px;
+      cursor: move;
+    }
+
+    h1 {
+      text-align: center;
+      color: #3498db;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #555;
+    }
+
+    input[type=text],
+    input[type=password] {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      border-radius: 4px;
+    }
+
+    input[type=text]:focus,
+    input[type=password]:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+
+    .btn {
+      background-color: #3498db;
+      color: white;
+      padding: 14px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .cancel {
+      background-color: #e74c3c;
+    }
+
+    .btn:hover,
+    .open-button:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="button-container">
+    <button class="open-button" onclick="openForm()">Open Form</button>
+  </div>
+
+  <div class="form-popup" id="myForm">
+    <form action="/action_page.php" class="form-container" onmousedown="startDrag(event)" onmouseup="stopDrag()">
+      <h1>Login</h1>
+
+      <label for="email">Email</label>
+      <input type="text" placeholder="Enter Email" name="email" required>
+
+      <label for="psw">Password</label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+
+      <button type="submit" class="btn">Login</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+
+    <form action="/register_page.php" class="form-container" onmousedown="startDrag(event)" onmouseup="stopDrag()">
+      <h1>Register</h1>
+
+      <label for="new-email">Email</label>
+      <input type="text" placeholder="Enter Email" name="new-email" required>
+
+      <label for="new-psw">Password</label>
+      <input type="password" placeholder="Enter Password" name="new-psw" required>
+
+      <button type="submit" class="btn">Register</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+  </div>
+
+  <script>
+    let offsetX, offsetY;
+    let isDragging = false;
+
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
+
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+
+    function startDrag(event) {
+      isDragging = true;
+      offsetX = event.clientX - document.getElementById("myForm").getBoundingClientRect().left;
+      offsetY = event.clientY - document.getElementById("myForm").getBoundingClientRect().top;
+      document.addEventListener("mousemove", drag);
+    }
+
+    function drag(event) {
+      if (isDragging) {
+        document.getElementById("myForm").style.left = (event.clientX - offsetX) + "px";
+        document.getElementById("myForm").style.top = (event.clientY - offsetY) + "px";
+      }
+    }
+
+    function stopDrag() {
+      isDragging = false;
+      document.removeEventListener("mousemove", drag);
+    }
+  </script>
+</body>
+
+</html>
