@@ -1,1 +1,179 @@
-quadriceps, glutes, hamstrings, and calves
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phenomenal Chat</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .openChatBtn {
+            background-color: #2ecc71; /* Green */
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            font-weight: 500;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0.9;
+            width: 200px;
+            border-radius: 5px;
+            transition: opacity 0.3s ease;
+        }
+        .openChatBtn:hover {
+            opacity: 1;
+        }
+        .openChatContainer {
+            position: relative;
+        }
+        .openChat {
+            display: none;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            background-color: #fff;
+            width: 350px;
+        }
+        .openChat h1 {
+            background-color: #e74c3c; /* Red */
+            color: white;
+            padding: 15px;
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: move; /* Change cursor to indicate draggable */
+        }
+        .openChat form {
+            padding: 20px;
+        }
+        .openChat textarea {
+            width: 100%;
+            font-size: 16px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+            min-height: 100px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .openChat textarea:focus {
+            outline: none;
+            border-color: #2ecc71; /* Green */
+            box-shadow: 0px 0px 10px rgba(46, 204, 113, 0.5);
+        }
+        .openChat .btn {
+            background-color: #2e86de; /* Blue */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .openChat .btn.close {
+            background-color: #e74c3c; /* Red */
+        }
+        .openChat .btn:hover {
+            background-color: #1e3799; /* Darker Blue */
+        }
+    </style>
+</head>
+<body>
+
+<div class="openChatContainer">
+    <button class="openChatBtn" onclick="openForm()">Start Chatting</button>
+    <div class="openChat" onmousedown="startDrag(event)">
+        <h1>Chat</h1>
+        <form onsubmit="sendMessage(event)">
+            <textarea placeholder="Type your message..." name="msg" required></textarea>
+            <button type="submit" class="btn">Send</button>
+            <button type="button" class="btn close" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let offsetX, offsetY;
+    let isDragging = false;
+
+    function openForm() {
+        document.querySelector(".openChat").style.display = "block";
+    }
+
+    function closeForm() {
+        document.querySelector(".openChat").style.display = "none";
+    }
+
+    function startDrag(event) {
+        isDragging = true;
+        const chatBox = document.querySelector(".openChat");
+        offsetX = event.clientX - chatBox.getBoundingClientRect().left;
+        offsetY = event.clientY - chatBox.getBoundingClientRect().top;
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("mouseup", stopDrag);
+    }
+
+    function drag(event) {
+        if (isDragging) {
+            const chatBox = document.querySelector(".openChat");
+            chatBox.style.left = (event.clientX - offsetX) + "px";
+            chatBox.style.top = (event.clientY - offsetY) + "px";
+        }
+    }
+
+    function stopDrag() {
+        isDragging = false;
+        document.removeEventListener("mousemove", drag);
+        document.removeEventListener("mouseup", stopDrag);
+    }
+
+    async function sendMessage(event) {
+        event.preventDefault();
+        var message = document.querySelector(".openChat textarea").value;
+        var response = await generateResponse(message);
+        document.querySelector(".openChat textarea").value = response;
+    }
+
+    async function generateResponse(message) {
+        const apiUrl = 'https://api.chatbot.com';
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer mWD7Y5A_g8mF7biEpMZkYOxqmEWY6QFe'
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch response');
+            }
+
+            const data = await response.json();
+            return data.response;
+        } catch (error) {
+            console.error('Error:', error);
+            return "I'm sorry, I couldn't process your request at this time.";
+        }
+    }
+</script>
+
+</body>
+</html>
