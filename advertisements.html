@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advertisement Section</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        
+        .ad-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .ad-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ad-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .ad-description {
+            margin-bottom: 15px;
+        }
+
+        .advertisement {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .premium-option {
+            
+            display: block;
+        }
+
+        .premium {
+            color: #ff6600; 
+        }
+
+        .premium-description {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .notice {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .accepted-cards {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .advertise-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .advertise-button:hover {
+            background-color: #45a049;
+        }
+
+        
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0, 0, 0, 0.4); 
+            padding-top: 60px;
+        }
+
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+            position: relative; 
+        }
+
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* Style for the payment form */
+        .payment-form input[type="text"],
+        .payment-form input[type="number"],
+        .payment-form select {
+            width: calc(100% - 22px); 
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+
+        .payment-form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .payment-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ad-section">
+        <h2>Advertisements</h2>
+
+        
+        <div class="advertisement" id="exampleAd">
+            <div class="ad-container">
+                <div>
+                    <h3 class="ad-title" contenteditable="true">Store Name</h3>
+                    <p class="ad-description" contenteditable="true">Description of the store or product being advertised.</p>
+                </div>
+            </div>
+        </div>
+
+       
+
+        
+        <div class="advertisement premium-option">
+            <div class="ad-container">
+                <div>
+                    <h3 class="ad-title">Premium Ad</h3>
+                    <p class="ad-description">Upgrade to premium to have your store listed first.</p>
+                    <p class="premium-description">Your products and stores will be featured on the homepage and your products will show up as sponsored results before products from other stores.</p>
+                </div>
+            </div>
+            <div class="ad-interaction">
+                <button class="advertise-button" onclick="openPaymentModal()">Upgrade to Premium</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePaymentModal()">&times;</span>
+            <h2>Enter Payment Details</h2>
+            
+            <form class="payment-form">
+                <label for="cardNumber">Card Number:</label>
+                <input type="text" id="cardNumber" name="cardNumber" required><br>
+                <label for="cardHolder">Card Holder Name:</label>
+                <input type="text" id="cardHolder" name="cardHolder" required><br>
+                <label for="expiryDate">Expiry Date:</label>
+                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YYYY" required><br>
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" required><br>
+                <input type="submit" value="Submit Payment">
+            </form>
+        </div>
+    </div>
+
+    
+    <div class="payment-section">
+        <h2>Payment Options</h2>
+        <p>Accepted Credit and Debit Cards:</p>
+        <ul class="accepted-cards">
+            <li>Visa</li>
+            <li>Mastercard</li>
+            <li>American Express</li>
+            <li>Discover</li>
+            
+        </ul>
+        <p class="notice">Notice: Your ads may not appear first due to other companies purchasing the subscription before you.</p>
+    </div>
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <script>
+        
+        function openPaymentModal() {
+            var modal = document.getElementById('paymentModal');
+            modal.style.display = 'block';
+            
+            $(modal).draggable({
+                containment: "body",
+                scroll: false
+            });
+        }
+
+       
+        function closePaymentModal() {
+            var modal = document.getElementById('paymentModal');
+            modal.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
