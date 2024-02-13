@@ -12,6 +12,7 @@ a:link, a:visited {
   text-align: center;
   text-decoration: none;
   display: block;
+  width:15px 20px;
 }
 a:hover{
  color: #a7ffbd;
