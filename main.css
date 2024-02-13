@@ -24,4 +24,5 @@ a:hover{
 #map {
     height: 700px;
     width: 100%;
+    border-radius: 50px 50px;
 }
