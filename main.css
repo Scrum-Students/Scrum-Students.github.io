@@ -23,7 +23,7 @@ a:hover{
     color: white;
   }
 #map {
-    height: 700px;
+    height: 90%;
     width: 60%;
     border-radius: 50px 50px;
 }
