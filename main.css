@@ -4,7 +4,12 @@ body{
 
 
 }
-  
+html{
+ min-zoom: 1.0;
+}
+
+
+
 a:link, a:visited {
   background-color: #296d694b;
   color: white;
