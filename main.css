@@ -11,6 +11,8 @@ a:link, a:visited {
   text-align: center;
   text-decoration: none;
   display: inline-block;
+  height:100%;
+  width:100%;
 }
 a:hover{
  color: #a7ffbd;
