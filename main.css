@@ -12,7 +12,7 @@ a:link, a:visited {
   display: inline-block;
 }
 a:hover{
- color: green;
+ color: #a7ffbd;
  border: 2px solid rgb(78,163,78);
  margin: -2px; 
  border-radius: 25px 25px;
