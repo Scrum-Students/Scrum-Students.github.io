@@ -33,3 +33,7 @@ a:hover{
     width: 60%;
     border-radius: 50px 50px;
 }
+
+#openChatContainer{
+ display: inline-block;
+}
