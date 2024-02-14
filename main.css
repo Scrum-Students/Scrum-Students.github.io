@@ -37,6 +37,6 @@ a:hover{
 #openChatContainer{
  
 }
-#button_container{
-
+#button-container{
+display: inline-block;
 }
