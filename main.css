@@ -2,13 +2,7 @@ body{
     background-image:url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=2000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fG1hcHxlbnwwfHwwfHx8MA%3D%3D');
     image;
 
-h1{
-color:black;
-}
-
-
-
-a:link, a:visited{
+a:link, a:visited {
   background-color: #296d694b;
   color: white;
   padding: 15px 25px;
